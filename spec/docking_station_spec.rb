@@ -27,5 +27,14 @@ describe DockingStation do
       
       expect { subject.dock_bike(bike) }.to change(subject, :bike).to eq bike
     end
+    
+    it 'raises an error when there is already in the station' do
+      bike = Bike.new
+      subject.dock_bike(bike)
+      
+      another_bike = Bike.new
+      
+      expect { subject.dock_bike(another_bike) }.to raise_error 'Station is full'
+    end
   end
 end
