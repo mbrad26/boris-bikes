@@ -6,7 +6,7 @@ describe DockingStation do
   
   it { is_expected.to respond_to(:dock_bike).with(1).argument }
   
-  it { is_expected.to respond_to(:bike) }
+  it { is_expected.to respond_to(:bikes) }
   
   describe '#release_bike' do
     it 'returns a bike' do
@@ -25,16 +25,21 @@ describe DockingStation do
     it 'docks a bike' do
       bike = Bike.new
       
-      expect { subject.dock_bike(bike) }.to change(subject, :bike).to eq bike
+      expect { subject.dock_bike(bike) }.to change(subject, :bikes).to include(bike)
     end
     
     it 'raises an error when there is already in the station' do
-      bike = Bike.new
-      subject.dock_bike(bike)
+      20.times { subject.dock_bike(Bike.new) }
       
       another_bike = Bike.new
       
       expect { subject.dock_bike(another_bike) }.to raise_error 'Station is full'
+    end
+  end
+  
+  describe '#bikes' do
+    it 'returns an array' do
+      expect(subject.bikes).to be_a_kind_of(Array)
     end
   end
 end
