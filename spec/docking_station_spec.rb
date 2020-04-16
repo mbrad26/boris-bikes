@@ -10,7 +10,14 @@ describe DockingStation do
   
   describe '#release_bike' do
     it 'returns a bike' do
-      expect(subject.release_bike).to be_a_kind_of(Bike)
+      bike = Bike.new
+      subject.dock_bike(bike)
+      
+      expect(subject.release_bike).to eq(bike)
+    end
+    
+    it 'raises an error when there are no bikes available' do
+      expect { subject.release_bike }.to raise_error 'No bikes available'
     end
   end
   
