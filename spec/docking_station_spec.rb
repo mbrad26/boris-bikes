@@ -2,13 +2,16 @@ require 'docking_station'
 require 'bike'
 
 describe DockingStation do
-  it { is_expected.to respond_to(:release_bike) }
 
-  it { is_expected.to respond_to(:dock_bike).with(1).argument }
-
-  it { is_expected.to respond_to(:bikes) }
+  describe '#initialize' do
+    it 'has a default capacity' do
+      expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+    end
+  end
 
   describe '#release_bike' do
+    it { is_expected.to respond_to(:release_bike) }
+
     it 'returns a bike' do
       bike = Bike.new
       subject.dock_bike(bike)
@@ -22,6 +25,8 @@ describe DockingStation do
   end
 
   describe '#dock_bike' do
+    it { is_expected.to respond_to(:dock_bike).with(1).argument }
+
     it 'docks a bike' do
       bike = Bike.new
 
@@ -29,7 +34,7 @@ describe DockingStation do
     end
 
     it 'raises an error when there is already in the station' do
-      DockingStation::DEFAULT_CAPACITY.times { subject.dock_bike(Bike.new) }
+      subject.capacity.times { subject.dock_bike(Bike.new) }
       # allow(subject).to receive(:full?).and_return true
 
       expect { subject.dock_bike(Bike.new) }.to raise_error 'Station is full'
@@ -37,6 +42,8 @@ describe DockingStation do
   end
 
   describe '#bikes' do
+    it { is_expected.to respond_to(:bikes) }
+
     it 'returns an array' do
       expect(subject.bikes).to be_a_kind_of(Array)
     end
